@@ -21,14 +21,14 @@ t = Def.ActorFrame {
 t[#t + 1] =
 	Def.Quad {
 	InitCommand = function(self)
-		self:zoomto(20, 20):diffuse(color("#ffffff")):diffusealpha(0.7)
+		self:zoomto(22, 22):diffuse(color("#ffffff")):diffusealpha(1.0)
 	end
 }
 
 t[#t + 1] =
 	Def.Quad {
 	InitCommand = function(self)
-		self:zoomto(54, 20):diffuse(color("#ffffff")):diffusealpha(0.5):halign(0)
+		self:zoomto(54, 22):diffuse(color("#ffffff")):diffusealpha(0.5):halign(0)
 	end,
 	HighlightCommand=function(self)
 		highlightIfOver(self)

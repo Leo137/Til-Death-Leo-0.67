@@ -11,7 +11,9 @@ local defaultConfig = {
 		enabled = "#4CBB17",
 		disabled = "#666666",
 		negative = "#FF9999",
-		positive = "#9654FD"
+		positive = "#9654FD",
+		background = "#000000",
+		background_bottom = "#000000",
 	},
 	leaderboard = {
 		background = "#111111CC",

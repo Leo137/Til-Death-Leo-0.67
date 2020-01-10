@@ -555,6 +555,7 @@ t[#t + 1] =
 					local playabletime = GetPlayableTime()
 					self:settext(SecondsToMMSS(playabletime))
 					self:diffuse(byMusicLength(playabletime))
+					self:zoom(0.4)
 				else
 					self:settext("")
 				end

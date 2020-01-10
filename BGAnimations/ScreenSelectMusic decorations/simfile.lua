@@ -90,53 +90,50 @@ t[#t + 1] =
 	end
 }
 
-t[#t + 1] =
-	Def.Sprite {
-	InitCommand = function(self)
-		self:xy(frameX + 75, frameY + 125):zoomy(0):valign(1)
-	end,
-	Name = "CDTitle",
-	SetCommand = function(self)
-		if update then
-			self:finishtweening()
-			self:sleep(0.45)
-			local song = GAMESTATE:GetCurrentSong()
-			if song then
-				if song:HasCDTitle() then
-					self:visible(true)
-					self:Load(song:GetCDTitlePath())
-				else
-					self:visible(false)
-				end
-			else
-				self:visible(false)
-			end
-			local height = self:GetHeight()
-			local width = self:GetWidth()
-
-			if height >= 80 and width >= 100 then
-				if height * (100 / 80) >= width then
-					self:zoom(80 / height)
-				else
-					self:zoom(100 / width)
-				end
-			elseif height >= 80 then
-				self:zoom(80 / height)
-			elseif width >= 100 then
-				self:zoom(100 / width)
-			else
-				self:zoom(1)
-			end
-			self:smooth(0.5)
-			self:diffusealpha(1)
-		end
-	end,
-	BeginCommand = function(self)
-		self:queuecommand("Set")
-	end,
-	CurrentSongChangedMessageCommand = function(self)
-		self:finishtweening():smooth(0.5):diffusealpha(0):sleep(0.35):queuecommand("Set")
-	end
+t[#t+1] = Def.Sprite {
+  InitCommand=function(self)
+    self:xy(capWideScale(get43size(344),364),capWideScale(get43size(345),255) - 50):halign(0.5):valign(1)
+  end,
+  SetCommand=function(self)
+    self:finishtweening()
+    if GAMESTATE:GetCurrentSong() then
+      local song = GAMESTATE:GetCurrentSong() 
+      if song then
+        if song:HasCDTitle() then
+          self:visible(true)
+          self:Load(song:GetCDTitlePath())
+        else
+          self:visible(false)
+        end
+      else
+        self:visible(false)
+      end
+      local height = self:GetHeight()
+      local width = self:GetWidth()
+      
+      if height >= 60 and width >= 75 then
+        if height*(75/60) >= width then
+        self:zoom(60/height)
+        else
+        self:zoom(75/width)
+        end
+      elseif height >= 60 then
+        self:zoom(60/height)
+      elseif width >= 75 then
+        self:zoom(75/width)
+      else
+        self:zoom(1)
+      end
+    else
+    self:visible(false)
+    end
+  end,
+  BeginCommand=function(self)
+    self:queuecommand("Set")
+  end,
+  RefreshChartInfoMessageCommand=function(self)
+    self:queuecommand("Set")
+  end,
 }
 
 t[#t + 1] =
@@ -217,9 +214,9 @@ t[#t + 1] =
 					self:settext("Not Available")
 					self:diffuse(getMainColor("disabled"))
 				end
-				self:GetParent():GetChild("Song Length"):x(
-					math.min(((frameWidth - offsetX * 2 - 150) / 0.6) - 5, self:GetWidth() * 0.6 + self:GetX() + 5)
-				)
+				-- self:GetParent():GetChild("Song Length"):x(
+				-- 	math.min(((frameWidth - offsetX * 2 - 150) / 0.6) - 5, self:GetWidth() * 0.6 + self:GetX() + 5)
+				-- )
 			end
 		end,
 		CurrentSongChangedMessageCommand = function(self)
