@@ -97,7 +97,7 @@ local function littlebits(i)
 		LoadFont("Common Large") ..
 			{
 				InitCommand = function(self)
-					self:xy(frameX + offsetX, frameY + 120 + 22 * i):halign(0):valign(0):zoom(0.5):maxwidth(160 / 0.6)
+					self:xy(frameX + offsetX, frameY + 120 + 10 * i):halign(0):valign(0):zoom(0.3):maxwidth(110/0.6)
 				end,
 				SetCommand = function(self)
 					--skillset name
@@ -121,7 +121,7 @@ local function littlebits(i)
 		LoadFont("Common Large") ..
 			{
 				InitCommand = function(self)
-					self:xy(frameX + 225, frameY + 120 + 22 * i):halign(1):valign(0):zoom(0.5):maxwidth(110 / 0.6)
+					self:xy(frameX + 225, frameY + 120 + 10 * i):halign(1):valign(0):zoom(0.3):maxwidth(110/0.6)
 				end,
 				SetCommand = function(self)
 					if song and steps then

@@ -356,7 +356,7 @@ t[#t + 1] =
 	LoadFont("Common Normal") ..
 		{
 			InitCommand = function(self)
-				self:xy(frameX + 120, frameY - 60):halign(0):zoom(0.6, maxwidth, 125)
+				self:xy(frameX + 120, frameY - 30):halign(0):zoom(0.5, maxwidth, 125)
 			end,
 			MintyFreshCommand = function(self)
 				if song then
@@ -377,7 +377,7 @@ t[#t + 1] =
 	LoadFont("Common Normal") ..
 		{
 			InitCommand = function(self)
-				self:xy(frameX + 120, frameY - 30):halign(0):zoom(0.6, maxwidth, 125)
+				self:xy(frameX + 120, frameY - 15):halign(0):zoom(0.5, maxwidth, 125)
 			end,
 			MintyFreshCommand = function(self)
 				if song then
@@ -398,7 +398,7 @@ t[#t + 1] =
 	LoadFont("Common Normal") ..
 		{
 			InitCommand = function(self)
-				self:xy(frameX + 120, frameY):halign(0):zoom(0.6, maxwidth, 125)
+				self:xy(frameX + 120, frameY):halign(0):zoom(0.5, maxwidth, 125)
 			end,
 			MintyFreshCommand = function(self)
 				if song then
@@ -695,6 +695,7 @@ t[#t + 1] =
 	end
 }
 
+--banner
 t[#t + 1] =
 	Def.Sprite {
 	Name = "Banner",
@@ -964,8 +965,8 @@ t[#t + 1] = Def.ActorFrame {
 			mcbootlarder = self:GetParent():GetParent():GetChild("ChartPreview")
 			SCREENMAN:GetTopScreen():AddInputCallback(MPinput)
 			SCREENMAN:GetTopScreen():AddInputCallback(ihatestickinginputcallbackseverywhere)
-			self:xy(20, 235)
-			self:zoom(0.5)
+			self:xy(15, 230)
+			self:zoom(0.4)
 			self:halign(0)
 			self:settext(translated_info["TogglePreview"])
 		end,
@@ -1008,8 +1009,8 @@ t[#t + 1] = Def.ActorFrame {
 	{
 		Name = "PlayerOptionsButton",
 		BeginCommand = function(self)
-			self:xy(20, 218)
-			self:zoom(0.5)
+			self:xy(15, 215)
+			self:zoom(0.4)
 			self:halign(0)
 			self:settext(translated_info["PlayerOptions"])
 		end,
@@ -1043,8 +1044,8 @@ t[#t + 1] =
 	{
 		Name = "MusicWheelSortButton",
 		BeginCommand = function(self)
-			self:xy(20, 201)
-			self:zoom(0.5)
+			self:xy(15, 200)
+			self:zoom(0.4)
 			self:halign(0)
 			self:settext(translated_info["OpenSort"])
 		end,

@@ -1,3 +1,5 @@
+local condensed = Var("condensed")
+
 -- Old avatar actor frame.. renamed since much more will be placed here (hopefully?)
 local t =
 	Def.ActorFrame {
@@ -164,6 +166,9 @@ t[#t + 1] =
 			Name = "loginlogout",
 			InitCommand = function(self)
 				self:xy(SCREEN_CENTER_X, AvatarY + 26):halign(0.5):zoom(0.5):diffuse(getMainColor("positive"))
+				if condensed then
+					self:xy(SCREEN_CENTER_X - 100, AvatarY + 26)
+				end
 			end,
 			BeginCommand = function(self)
 				self:queuecommand("Set")
@@ -201,6 +206,9 @@ t[#t + 1] =
 		{
 			InitCommand = function(self)
 				self:xy(SCREEN_CENTER_X, AvatarY + 20):halign(0.5):zoom(0.5):diffuse(getMainColor("positive"))
+				if condensed then
+					self:xy(SCREEN_CENTER_X - 100, AvatarY + 20)
+				end
 			end,
 			BeginCommand = function(self)
 				self:queuecommand("Set")
@@ -253,6 +261,9 @@ t[#t + 1] =
 	Def.Quad {
 		InitCommand = function(self)
 			self:xy(SCREEN_CENTER_X, AvatarY + 20):halign(0.5):zoomto(100, 30):diffusealpha(0)
+			if condensed then
+				self:xy(SCREEN_CENTER_X - 100, AvatarY + 20)
+			end
 		end,
 		LoginFailedMessageCommand = function(self)
 			ms.ok(translated_info["LoginFailed"])
@@ -315,6 +326,9 @@ t[#t + 1] =
 		{
 			InitCommand = function(self)
 				self:xy(SCREEN_CENTER_X - 125, AvatarY + 40):halign(0.5):zoom(0.35):diffuse(getMainColor("positive"))
+				if condensed then
+					self:xy(SCREEN_CENTER_X - 250, AvatarY + 40)
+				end
 			end,
 			BeginCommand = function(self)
 				self:queuecommand("Set")
@@ -330,6 +344,9 @@ t[#t + 1] =
 		{
 			InitCommand = function(self)
 				self:xy(SCREEN_WIDTH - 5, AvatarY + 10):halign(1):zoom(0.35):diffuse(getMainColor("positive"))
+				if condensed then
+					self:xy(SCREEN_WIDTH - 340, AvatarY + 10)
+				end
 			end,
 			BeginCommand = function(self)
 				self:queuecommand("Set")
@@ -342,7 +359,9 @@ t[#t + 1] =
 		Name = "refreshbutton",
 			InitCommand = function(self)
 				self:xy(SCREEN_WIDTH - 5, AvatarY + 20):halign(1):zoom(0.35):diffuse(getMainColor("positive"))
-				
+				if condensed then
+					self:xy(SCREEN_WIDTH - 340, AvatarY + 20)
+				end
 			end,
 			BeginCommand = function(self)
 				self:queuecommand("Set")
@@ -363,6 +382,9 @@ t[#t + 1] =
 		{
 			InitCommand = function(self)
 				self:xy(SCREEN_WIDTH - 5, AvatarY + 30):halign(1):zoom(0.35):diffuse(getMainColor("positive"))
+				if condensed then
+					self:xy(SCREEN_WIDTH - 340, AvatarY + 30)
+				end
 			end,
 			BeginCommand = function(self)
 				self:queuecommand("Set")

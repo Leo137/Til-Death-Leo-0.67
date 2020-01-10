@@ -1,6 +1,6 @@
 local t = Def.ActorFrame {}
 
-t[#t + 1] = LoadActor("visualizer")
+-- t[#t + 1] = LoadActor("visualizer")
 t[#t + 1] = LoadActor("tabs")
 t[#t + 1] = LoadActor("wifetwirl")
 t[#t + 1] = LoadActor("msd")

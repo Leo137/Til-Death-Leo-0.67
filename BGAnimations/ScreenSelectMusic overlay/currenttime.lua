@@ -5,7 +5,7 @@ t[#t + 1] =
 	{
 		Name = "currentTime",
 		InitCommand = function(self)
-			self:xy(SCREEN_WIDTH - 5, SCREEN_BOTTOM - 5):halign(1):valign(1):zoom(0.45)
+			self:xy(SCREEN_WIDTH - 339, SCREEN_BOTTOM - 5):halign(1):valign(1):zoom(0.3)
 		end
 	}
 
@@ -14,7 +14,7 @@ t[#t + 1] =
 	{
 		Name = "SessionTime",
 		InitCommand = function(self)
-			self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 5):halign(0.5):valign(1):zoom(0.45)
+			self:xy(SCREEN_CENTER_X - 100, SCREEN_BOTTOM - 5):halign(0.5):valign(1):zoom(0.45)
 		end
 	}
 

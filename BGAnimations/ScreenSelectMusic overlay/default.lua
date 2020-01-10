@@ -40,8 +40,8 @@ t[#t + 1] =
 	end
 }
 
-t[#t + 1] = LoadActor("../_frame")
-t[#t + 1] = LoadActor("../_PlayerInfo")
+t[#t + 1] = LoadActor("../_trimmed_frame")
+t[#t + 1] = LoadActorWithParams("../_PlayerInfo", {condensed = true})
 
 
 
