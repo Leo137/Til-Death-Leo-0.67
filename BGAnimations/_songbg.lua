@@ -1,5 +1,5 @@
 local enabled = themeConfig:get_data().global.SongBGEnabled
-local brightness = 0.3
+local brightness = 0.5
 
 local t = Def.ActorFrame {}
 
