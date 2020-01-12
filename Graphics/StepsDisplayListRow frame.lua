@@ -22,13 +22,24 @@ t[#t + 1] =
 	Def.Quad {
 	InitCommand = function(self)
 		self:zoomto(22, 22):diffuse(color("#ffffff")):diffusealpha(1.0)
+	end,
+	OnCommand = function(self)
+		if self:GetParent():GetName() ~= "Frame" then
+			self:zoom(0)
+		end
 	end
 }
+
 
 t[#t + 1] =
 	Def.Quad {
 	InitCommand = function(self)
 		self:zoomto(54, 22):diffuse(color("#ffffff")):diffusealpha(0.5):halign(0)
+	end,
+	OnCommand = function(self)
+		if self:GetParent():GetName() ~= "Frame" then
+			self:zoom(0)
+		end
 	end,
 	HighlightCommand=function(self)
 		highlightIfOver(self)

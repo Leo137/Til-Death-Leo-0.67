@@ -133,6 +133,9 @@ local leftCtrlPressed = false;
 local function input(event)
 
   local topScreen = SCREENMAN:GetTopScreen();
+  if topScreen:GetChildren().Overlay == nil then
+    return
+  end
   local SearchBar = topScreen:GetChildren().Overlay:GetChildren().SearchBar;
   if SearchBar == nil then
     return

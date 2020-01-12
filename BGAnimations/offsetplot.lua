@@ -19,6 +19,23 @@ local baralpha = 0.2
 local bgalpha = 0.8
 local textzoom = 0.35
 
+-- Asignation of custom vars
+if Var("plotWidth") ~= nil then
+	plotWidth = Var("plotWidth")
+end
+
+if Var("plotHeight") ~= nil then
+	plotHeight = Var("plotHeight")
+end
+
+if Var("plotX") ~= nil then
+	plotX = Var("plotX")
+end
+
+if Var("plotY") ~= nil then
+	plotY = Var("plotY")
+end
+
 local translated_info = {
 	Left = THEME:GetString("OffsetPlot", "ExplainLeft"),
 	Middle = THEME:GetString("OffsetPlot", "ExplainMiddle"),

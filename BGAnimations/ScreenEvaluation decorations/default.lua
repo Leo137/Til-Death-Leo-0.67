@@ -1,5 +1,11 @@
 local t = Def.ActorFrame {}
 
+local EvalscreenSidebar = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).EvalscreenSidebar
+if EvalscreenSidebar then
+	t[#t + 1] = LoadActor("sidebar/default")
+	return t
+end
+
 local enabledCustomWindows = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).CustomEvaluationWindowTimings
 
 local customWindows = timingWindowConfig:get_data().customWindows
@@ -837,5 +843,19 @@ local state =
 			string.format("%05.2f%%", notShit.floor(pssP1:GetWifeScore() * 10000) / 100) ..
 				" " .. THEME:GetString("Grade", ToEnumShortString(score:GetWifeGrade()))
 GAMESTATE:UpdateDiscordPresence(largeImageTooltip, detail, state, 0)
+
+t[#t + 1] =
+	Def.Sprite {
+	Name = "Banner",
+	OnCommand = function(self)
+		self:x(SCREEN_CENTER_X):y(38):valign(0)
+		self:scaletoclipped(capWideScale(get43size(336), 336), capWideScale(get43size(105), 105))
+		local bnpath = GAMESTATE:GetCurrentSong():GetBannerPath()
+		if not bnpath then
+			bnpath = THEME:GetPathG("Common", "fallback banner")
+		end
+		self:LoadBackground(bnpath)
+	end
+}
 
 return t

@@ -1,4 +1,11 @@
 local t = Def.ActorFrame {}
+local EvalscreenSidebar = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).EvalscreenSidebar
+
+if EvalscreenSidebar then
+	t[#t + 1] = LoadActor("sidebar/default")
+	return t
+end
+
 t[#t + 1] = LoadActor("../_frame")
 t[#t + 1] = LoadActor("../_PlayerInfo")
 t[#t + 1] = LoadActor("currenttime")
