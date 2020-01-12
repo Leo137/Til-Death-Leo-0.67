@@ -17,10 +17,10 @@ local t = Def.ActorFrame {
 	end
 }
 
-local frameWidth = 280
+local frameWidth = 380
 local frameHeight = 20
-local frameX = SCREEN_WIDTH - 5
-local frameY = 15
+local frameX = 8
+local frameY = 33
 
 local sortTable = {
 	SortOrder_Preferred = THEME:GetString("SortOrder", "Preferred"),
@@ -49,21 +49,13 @@ local translated_info = {
 	Sort = THEME:GetString("SortOrder", "SortWord")
 }
 
-t[#t + 1] =
-	Def.Quad {
-	Name = "CurrentSort",
-	InitCommand = function(self)
-		self:xy(frameX, frameY):halign(1):zoomto(frameWidth, frameHeight):diffuse(getMainColor("frames"))
-	end
-}
-
 local group_rand = ""
 t[#t + 1] =
 	LoadFont("Common Large") ..
 	{
 		Name="rando",
 		InitCommand = function(self)
-			self:xy(frameX, frameY + 5):halign(1):zoom(0.55):maxwidth((frameWidth - 40) / 0.35)
+			self:xy(frameX, frameY + 5):halign(0):zoom(0.3):maxwidth((frameWidth - 40) / 0.35)
 		end,
 		BeginCommand = function(self)
 			self:queuecommand("Set")

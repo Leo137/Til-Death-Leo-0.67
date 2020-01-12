@@ -5,6 +5,7 @@ local allowedCustomization = playerConfig:get_data(pn_to_profile_slot(PLAYER_1))
 local practiceMode = GAMESTATE:IsPracticeMode()
 local jcKeys = tableKeys(colorConfig:get_data().judgment)
 local jcT = {} -- A "T" following a variable name will designate an object of type table.
+local sm5SongProgressEnabled = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).sm5SongProgressStyle
 
 for i = 1, #jcKeys do
 	jcT[jcKeys[i]] = byJudgment(jcKeys[i])
@@ -203,6 +204,10 @@ local t =
 		Notefield = screen:GetChild("PlayerP1"):GetChild("NoteField")
 		Notefield:addy(MovableValues.NotefieldY * (usingReverse and 1 or -1))
 		Notefield:addx(MovableValues.NotefieldX)
+
+		if sm5SongProgressEnabled then
+			Notefield:addy(-20 * (usingReverse and 1 or -1))
+		end
 		noteColumns = Notefield:get_column_actors()
 		-- lifebar stuff
 		local lifebar = SCREENMAN:GetTopScreen():GetLifeMeter(PLAYER_1)
@@ -223,7 +228,8 @@ local t =
 			Movable.DeviceButton_l.condition = true
 		end
 
-		if lifebar ~= nil then
+		
+		if lifebar ~= nil and not sm5SongProgressEnabled then
 			lifebar:zoomtowidth(MovableValues.LifeP1Width)
 			lifebar:zoomtoheight(MovableValues.LifeP1Height)
 			lifebar:xy(MovableValues.LifeP1X, MovableValues.LifeP1Y)
@@ -796,7 +802,7 @@ local p =
 	MovableBorder(width, height, 1, 0, 0)
 }
 
-if enabledFullBar then
+if enabledFullBar and not sm5SongProgressEnabled then
 	t[#t + 1] = p
 end
 
@@ -846,7 +852,7 @@ local mb =
 	MovableBorder(width, height, 1, 0, 0)
 }
 
-if enabledMiniBar then
+if enabledMiniBar and not sm5SongProgressEnabled then
 	t[#t + 1] = mb
 end
 

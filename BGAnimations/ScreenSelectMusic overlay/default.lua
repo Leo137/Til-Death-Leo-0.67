@@ -52,8 +52,8 @@ t[#t + 1] =
 	{
 		Name="rando",
 		InitCommand = function(self)
-			self:xy(5, 32):halign(0):valign(1):zoom(0.55):diffuse(getMainColor("positive"))
-			self:settextf("%s:", THEME:GetString("ScreenSelectMusic", "Title"))
+			self:xy(5, 29):halign(0):valign(1):zoom(0.55):diffuse(getMainColor("positive"))
+			self:settextf("%s", THEME:GetString("ScreenSelectMusic", "Title"))
 		end,
 		HighlightCommand=function(self)
 			highlightIfOver(self)

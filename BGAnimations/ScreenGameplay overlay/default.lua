@@ -20,4 +20,9 @@ end
 if inReplay or inCustomize or isPractice then
 	t[#t + 1] = LoadActor("../_cursor")
 end
+
+local sm5SongProgressEnabled = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).sm5SongProgressStyle
+if sm5SongProgressEnabled then
+  t[#t+1] = LoadActor("gradebar")
+end
 return t

@@ -7,27 +7,11 @@ local borderWidth = 2
 t[#t + 1] =
   Def.Quad {
   InitCommand = function(self)
-    self:xy(0, 0):halign(0):valign(0):zoomto(SCREEN_WIDTH, topFrameHeight):diffuse(getMainColor("frames"))
-  end
-}
-
-t[#t + 1] =
-  Def.Quad {
-  InitCommand = function(self)
     self:xy(0, SCREEN_HEIGHT):halign(0):valign(1):zoomto(SCREEN_WIDTH - 335, bottomFrameHeight):diffuse(getMainColor("frames"))
   end
 }
 
 --FrameBorders
-t[#t + 1] =
-  Def.Quad {
-  InitCommand = function(self)
-    self:xy(0, topFrameHeight):halign(0):valign(1):zoomto(SCREEN_WIDTH, borderWidth):diffuse(getMainColor("highlight")):diffusealpha(
-      0.5
-    )
-  end
-}
-
 t[#t + 1] =
   Def.Quad {
   InitCommand = function(self)

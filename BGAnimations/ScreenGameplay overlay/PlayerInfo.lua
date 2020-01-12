@@ -1,7 +1,21 @@
 -- Various player and stage info, more text = fps drop so we should be sparing
 local profileP1 = GetPlayerOrMachineProfile(PLAYER_1)
+local sm5SongProgressEnabled = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).sm5SongProgressStyle
+
 local PlayerFrameX = 0
 local PlayerFrameY = SCREEN_HEIGHT - 50
+
+function adjustSizes(self)
+	local c = self:GetChildren()
+	local sm5SongProgressEnabled = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).sm5SongProgressStyle
+
+	if sm5SongProgressEnabled then
+		self:zoom(0.8)
+		-- self:xy(0, SCREEN_HEIGHT - 50)
+		self:addx(70)
+		self:addy(90)
+	end
+end
 
 local translated_info = {
 	Judge = THEME:GetString("ScreenGameplay", "ScoringJudge"),
@@ -9,8 +23,12 @@ local translated_info = {
 }
 
 local t =
-	Def.ActorFrame {
+Def.ActorFrame {
+	OnCommand = function(self)
+		adjustSizes(self)
+	end,
 	Def.Sprite {
+		Name = "Avatar",
 		InitCommand = function(self)
 			self:halign(0):valign(0):xy(PlayerFrameX, PlayerFrameY)
 		end,
@@ -22,6 +40,7 @@ local t =
 	},
 	LoadFont("Common Large") ..
 		{
+			Name = "StepsDifficulty",
 			InitCommand = function(self)
 				self:xy(PlayerFrameX + 90, PlayerFrameY + 24):halign(0):zoom(0.45):maxwidth(120):diffuse(getMainColor("positive"))
 			end,
@@ -42,6 +61,7 @@ local t =
 		},
 	LoadFont("Common Large") ..
 		{
+			Name = "MSD",
 			InitCommand = function(self)
 				self:xy(PlayerFrameX + 52, PlayerFrameY + 28):halign(0):zoom(0.75):maxwidth(50)
 			end,
@@ -62,6 +82,7 @@ local t =
 		},
 	LoadFont("Common Normal") ..
 		{
+			Name = "Options",
 			InitCommand = function(self)
 				self:xy(PlayerFrameX + 91, PlayerFrameY + 39):halign(0):zoom(0.4):maxwidth(SCREEN_WIDTH * 0.8)
 			end,
@@ -71,6 +92,7 @@ local t =
 		},
 	LoadFont("Common Normal") ..
 		{
+			Name = "Judge",
 			InitCommand = function(self)
 				self:xy(PlayerFrameX + 53, PlayerFrameY - 2):halign(0):zoom(0.45)
 			end,
@@ -80,6 +102,7 @@ local t =
 		},
 	LoadFont("Common Normal") ..
 		{
+			Name = "Options",
 			InitCommand = function(self)
 				self:xy(PlayerFrameX + 53, PlayerFrameY + 8):halign(0):zoom(0.45)
 			end,
@@ -88,4 +111,7 @@ local t =
 			end
 		}
 }
+
+MESSAGEMAN:Broadcast("Resize")
+
 return t

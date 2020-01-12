@@ -212,13 +212,13 @@ local t = Def.ActorFrame{
       self:xy(SCREEN_CENTER_X*2 - (SCREEN_WIDTH*0.3) + 28 - 20, SCREEN_TOP );
     end;
     
-    self:addy(-60);
+    self:addy(-59);
     self:linear(0.0005);
     self:addy(1);
     self:linear(0.0005);
     self:addy(78);
     self:zoom(object_zoom);
-    self:addx(-350);
+    self:addx(-330);
     self:diffusecolor(getMainColor('positive'));
   end;
   
@@ -341,7 +341,7 @@ local t = Def.ActorFrame{
   LoadFont("Common normal") .. {
     Name="textfield2";
     InitCommand=function(self)
-      self:xy(-(SCREEN_WIDTH*0.3)/2 + 20,-17):zoom(0.45):horizalign(center):halign(0);
+      self:xy(-(SCREEN_WIDTH*0.3)/2 + 20,-17):zoom(0.0):horizalign(center):halign(0);
       self:diffuse(color("0.7,0.7,0.7,1")):strokecolor(color("#000000"));
     end;
     Text="Usa la lupa para empezar la busqueda.";

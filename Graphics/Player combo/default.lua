@@ -1,122 +1,142 @@
-local allowedCustomization = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).CustomizeGameplay
-local c
-local enabledCombo = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).ComboText
+local c;
+local cf;
+local player = Var "Player";
+local ShowComboAt = THEME:GetMetric("Combo", "ShowComboAt");
+local Pulse = THEME:GetMetric("Combo", "PulseCommand");
+local PulseLabel = THEME:GetMetric("Combo", "PulseLabelCommand");
 
-local function arbitraryComboX(value) 
-	c.Label:x(value) 
-	c.Number:x(value - 4)
-	c.Border:x(value)
-  end 
+local NumberMinZoom = THEME:GetMetric("Combo", "NumberMinZoom");
+local NumberMaxZoom = THEME:GetMetric("Combo", "NumberMaxZoom");
+local NumberMaxZoomAt = THEME:GetMetric("Combo", "NumberMaxZoomAt");
 
-local function arbitraryComboZoom(value)
-	c.Label:zoom(value)
-	c.Number:zoom(value - 0.1)
-	if allowedCustomization then
-		c.Border:playcommand("ChangeWidth", {val = c.Number:GetZoomedWidth() + c.Label:GetZoomedWidth()})
-		c.Border:playcommand("ChangeHeight", {val = c.Number:GetZoomedHeight()})
-	end
-end
+local LabelMinZoom = THEME:GetMetric("Combo", "LabelMinZoom");
+local LabelMaxZoom = THEME:GetMetric("Combo", "LabelMaxZoom");
 
-local ShowComboAt = THEME:GetMetric("Combo", "ShowComboAt")
-local labelColor = getComboColor("ComboLabel")
-local mfcNumbers = getComboColor("Marv_FullCombo")
-local pfcNumbers = getComboColor("Perf_FullCombo")
-local fcNumbers = getComboColor("FullCombo")
-local regNumbers = getComboColor("RegularCombo")
+local ShowFlashyCombo = false
 
-local translated_combo = THEME:GetString("ScreenGameplay", "ComboText")
-
-local t =
+local t = Def.ActorFrame {
+	InitCommand=function(self) self:vertalign(bottom) end;
+	-- flashy combo elements:
+ 	LoadActor(THEME:GetPathG("Combo","100Milestone")) .. {
+		Name="OneHundredMilestone";
+		InitCommand=function(self) self:visible(ShowFlashyCombo) end;
+		FiftyMilestoneCommand=function(self) self:playcommand("Milestone") end;
+	};
+	LoadActor(THEME:GetPathG("Combo","1000Milestone")) .. {
+		Name="OneThousandMilestone";
+		InitCommand=function(self) self:visible(ShowFlashyCombo) end;
+		ToastyAchievedMessageCommand=function(self) self:playcommand("Milestone") end;
+	};
+	-- normal combo elements:
 	Def.ActorFrame {
+		Name="ComboFrame";
+		LoadFont( "Combo", "numbers" ) .. {
+			Name="Number";
+			OnCommand = THEME:GetMetric("Combo", "NumberOnCommand");
+		};
+		LoadFont("Common Normal") .. {
+			Name="Label";
+			OnCommand = THEME:GetMetric("Combo", "LabelOnCommand");
+		};
+	};
 	InitCommand = function(self)
-		self:vertalign(bottom)
-	end,
-	LoadFont("Combo", "numbers") ..
-		{
-			Name = "Number",
-			InitCommand = function(self)
-				self:xy(MovableValues.ComboX - 4, MovableValues.ComboY):halign(1):valign(1):skewx(-0.125):visible(
-					false
-				)
-			end
-		},
-	LoadFont("Common Normal") ..
-		{
-			Name = "Label",
-			InitCommand = function(self)
-				self:xy(MovableValues.ComboX, MovableValues.ComboY):diffusebottomedge(color("0.75,0.75,0.75,1")):halign(0):valign(
-					1
-				):visible(false)
-			end
-		},
-	InitCommand = function(self)
-		c = self:GetChildren()
-		if (allowedCustomization) then
-			Movable.DeviceButton_3.element = c
-			Movable.DeviceButton_4.element = c
-			Movable.DeviceButton_3.condition = enabledCombo
-			Movable.DeviceButton_4.condition = enabledCombo
-			Movable.DeviceButton_3.Border = self:GetChild("Border")
-			Movable.DeviceButton_3.DeviceButton_left.arbitraryFunction = arbitraryComboX 
-			Movable.DeviceButton_3.DeviceButton_right.arbitraryFunction = arbitraryComboX 
-			Movable.DeviceButton_4.DeviceButton_up.arbitraryFunction = arbitraryComboZoom
-			Movable.DeviceButton_4.DeviceButton_down.arbitraryFunction = arbitraryComboZoom
-		end
-	end,
-	OnCommand = function(self)
-		if (allowedCustomization) then
-			c.Label:settext(translated_combo)
-			c.Number:visible(true)
-			c.Label:visible(true)
-			c.Number:settext(1000)
-			Movable.DeviceButton_3.propertyOffsets = {self:GetTrueX() -6, self:GetTrueY() + c.Number:GetHeight()*1.5}	-- centered to screen/valigned
-			setBorderAlignment(c.Border, 0.5, 1)
-		end
-		arbitraryComboZoom(MovableValues.ComboZoom)
-	end,
-	ComboCommand = function(self, param)
-		local iCombo = param.Combo
-		if not iCombo or iCombo < ShowComboAt then
-			c.Number:visible(false)
-			c.Label:visible(false)
+		c = self:GetChildren();
+		cf = c.ComboFrame:GetChildren();
+		cf.Number:visible(false);
+		cf.Label:visible(false);
+	end;
+	-- Milestones:
+	-- 25,50,100,250,600 Multiples;
+--[[ 		if (iCombo % 100) == 0 then
+			c.OneHundredMilestone:playcommand("Milestone");
+		elseif (iCombo % 250) == 0 then
+			-- It should really be 1000 but thats slightly unattainable, since
+			-- combo doesnt save over now.
+			c.OneThousandMilestone:playcommand("Milestone");
+		else
 			return
+		end; --]]
+ 	TwentyFiveMilestoneCommand=function(self,parent)
+		if ShowFlashyCombo then
+			self:skewy(-0.125):decelerate(0.325):skewy(0)
+		end;
+	end;
+	--]]
+	--[[
+	ToastyAchievedMessageCommand=function(self,params)
+		if params.PlayerNumber == player then
+			(function(self) self:thump,2;effectclock,'beat'))(c.ComboFrame) end;
+		end;
+	end;
+	ToastyDroppedMessageCommand=function(self,params)
+		if params.PlayerNumber == player then
+			(function(self) self:stopeffect))(c.ComboFrame) end;
+		end;
+	end; --]]
+	ComboCommand=function(self, param)
+		local iCombo = param.Misses or param.Combo;
+		if not iCombo or iCombo < ShowComboAt then
+			cf.Number:visible(false);
+			cf.Label:visible(false);
+			return;
 		end
 
-		c.Label:settext(translated_combo)
-		c.Number:visible(true)
-		c.Label:visible(true)
-		c.Number:settext(iCombo)
+		local labeltext = "";
+		if param.Combo then
+			labeltext = "COMBO";
+-- 			c.Number:playcommand("Reset");
+		else
+			labeltext = "MISSES";
+-- 			c.Number:playcommand("Miss");
+		end
+		cf.Label:settext( labeltext );
+		cf.Label:visible(false);
 
+		param.Zoom = scale( iCombo, 0, NumberMaxZoomAt, NumberMinZoom, NumberMaxZoom );
+		param.Zoom = clamp( param.Zoom, NumberMinZoom, NumberMaxZoom );
+
+		param.LabelZoom = scale( iCombo, 0, NumberMaxZoomAt, LabelMinZoom, LabelMaxZoom );
+		param.LabelZoom = clamp( param.LabelZoom, LabelMinZoom, LabelMaxZoom );
+
+		cf.Number:visible(true);
+		cf.Label:visible(true);
+		cf.Number:settext( string.format("%i", iCombo) );
 		-- FullCombo Rewards
 		if param.FullComboW1 then
-			c.Number:diffuse(mfcNumbers)
-			c.Number:glowshift()
+			cf.Number:diffuse( GameColor.Judgment["JudgmentLine_W1"] );
+			cf.Number:glowshift();
 		elseif param.FullComboW2 then
-			c.Number:diffuse(pfcNumbers)
-			c.Number:glowshift()
+			cf.Number:diffuse( GameColor.Judgment["JudgmentLine_W2"] );
+			cf.Number:glowshift();
 		elseif param.FullComboW3 then
-			c.Number:diffuse(fcNumbers)
-			c.Number:stopeffect()
+			cf.Number:diffuse( GameColor.Judgment["JudgmentLine_W3"] );
+			cf.Number:stopeffect();
 		elseif param.Combo then
-			c.Number:diffuse(regNumbers)
-			c.Number:stopeffect()
-			c.Label:diffuse(labelColor)
-			c.Label:diffusebottomedge(color("0.75,0.75,0.75,1"))
+			-- Player 1's color is Red, which conflicts with the miss combo.
+			-- instead, just diffuse to white for now. -aj
+			--c.Number:diffuse(PlayerColor(player));
+			cf.Number:diffuse(Color("White"));
+			cf.Number:stopeffect();
+			cf.Label:diffuse(Color("White")):diffusebottomedge(color("0.5,0.5,0.5,1"))
 		else
-			-- I actually don't know what this is. 
-			-- It's probably for if you want to fade out the combo after a miss.
-			-- Oh well; Til death doesn't care.		-poco
-			c.Number:diffuse(color("#ff0000"))
-			c.Number:stopeffect()
-			c.Label:diffuse(Color("Red"))
-			c.Label:diffusebottomedge(color("0.5,0,0,1"))
+			cf.Number:diffuse(color("#ff0000"));
+			cf.Number:stopeffect();
+			cf.Label:diffuse(Color("Red")):diffusebottomedge(color("0.5,0,0,1"))
 		end
-	end,
-	MovableBorder(0, 0, 1, MovableValues.ComboX, MovableValues.ComboY),
-}
+		-- Pulse
+		Pulse( cf.Number, param );
+		PulseLabel( cf.Label, param );
+		-- Milestone Logic
+	end;
+--[[ 	ScoreChangedMessageCommand=function(self,param)
+		local iToastyCombo = param.ToastyCombo;
+		if iToastyCombo and (iToastyCombo > 0) then
+-- 			(function(self) self:thump;effectmagnitude,1,1.2,1;effectclock,'beat'))(c.Number end;
+-- 			(function(self) self:thump;effectmagnitude,1,1.2,1;effectclock,'beat'))(c.Number end;
+		else
+-- 			c.Number:stopeffect();
+		end;
+	end; --]]
+};
 
-if enabledCombo then
-	return t
-end
-
-return {}
+return t;
