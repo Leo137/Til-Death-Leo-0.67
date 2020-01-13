@@ -3,8 +3,6 @@ local t = Def.ActorFrame{}
 t[#t+1] = LoadActor("../../_PlayerInfo")
 t[#t+1] = LoadActor("../currenttime")
 
-
-
 t[#t+1] = LoadFont("Common Normal")..{
   InitCommand=function(self)
     self:xy(7,10):zoom(0.4):halign(0):maxwidth(205/0.4)

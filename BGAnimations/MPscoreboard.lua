@@ -7,6 +7,9 @@ local multiscores
 
 -- Takes an index into multiscores
 local function SetActivePlayer(locaIndex)
+	if SCREENMAN:GetTopScreen():GetChildren() ~= nil then
+		return
+	end
 	local scoreBoard = SCREENMAN:GetTopScreen():GetChildren().scoreBoard
 	local item = scoreBoard:GetChild(locaIndex)
 	SCREENMAN:GetTopScreen():SetCurrentPlayerByName(multiscores[locaIndex].user)

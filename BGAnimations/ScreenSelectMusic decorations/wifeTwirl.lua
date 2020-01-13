@@ -743,20 +743,21 @@ function toggleButton(textEnabled, textDisabled, msg, x, enabledF)
 	button =
 		Widg.Button {
 		text = textDisabled,
-		width = 50,
-		height = 25,
+		width = 75,
+		height = 22,
 		border = false,
 		bgColor = color(disabledC),
 		highlight = {color = getMainColor("highlight")},
-		x = 10 - 100 + capWideScale(get43size(384), 384) + x,
-		y = 61 + capWideScale(get43size(120), 120),
+		border = {color = "#909090", width = 1},
+		x = 10 - 280 + capWideScale(get43size(384), 384) + x,
+		y = 70 + capWideScale(get43size(120), 120),
 		font = {
-			scale = 0.3,
+			scale = 0.25,
 			name = "Common Large",
 			color = color("#FFFFFF"),
 			padding = {
-				x = 10,
-				y = 10
+				x = 0,
+				y = 8
 			}
 		},
 		onInit = function(self)
@@ -799,7 +800,7 @@ do
 			error "Could not find ourselves in the userlist"
 		end
 	end
-	readyButton = toggleButton(translated_info["Unready"], translated_info["Ready"], "/ready", 50, areWeReadiedUp)
+	readyButton = toggleButton(translated_info["Unready"], translated_info["Ready"], "/ready", 85, areWeReadiedUp)
 	readyButton.UsersUpdateMessageCommand = function(self)
 		readyButton.turnedOn = areWeReadiedUp()
 		readyButton.updateToggleButton()

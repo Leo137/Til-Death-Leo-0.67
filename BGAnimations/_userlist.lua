@@ -5,7 +5,7 @@ local usersWidthZoom = 50 * (1 / usersZoom)
 local usersWidthSmallZoom = 25 * (1 / usersZoom)
 local usersRowSize = 4
 local usersX = SCREEN_WIDTH / 4
-local usersY = SCREEN_TOP + 15
+local usersY = (SCREEN_HEIGHT / 2) + 20
 local usersHeight = 10
 local showVisualizer = themeConfig:get_data().global.ShowVisualizer
 

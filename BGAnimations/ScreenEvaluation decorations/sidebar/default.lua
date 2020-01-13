@@ -7,7 +7,11 @@ local customWindows = timingWindowConfig:get_data().customWindows
 local scoreType = themeConfig:get_data().global.DefaultScoreType
 
 if GAMESTATE:GetNumPlayersEnabled() == 1 and themeConfig:get_data().eval.ScoreBoardEnabled then
-  t[#t + 1] = LoadActor("../scoreboard")
+  if not NSMAN:IsETTP() then
+    t[#t + 1] = LoadActor("../scoreboard")
+  else
+    t[#t + 1] = LoadActor("../../MPscoreboard")
+  end
 end
 
 local translated_info = {
