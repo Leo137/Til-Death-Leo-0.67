@@ -32,4 +32,4 @@ ScreenGameplay and ScreenEvaluation customizations can be toggled with a gamepla
 
 ## Known issues
 
-While toggling ScreenGameplay / ScreenEvaluation and returning to ScreenSelectMusic, screen can turn black. Return to TitleMenu to circumvent the issue. This will happen only once.
+TODO
