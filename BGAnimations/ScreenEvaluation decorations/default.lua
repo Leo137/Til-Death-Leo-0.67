@@ -1,8 +1,11 @@
 local t = Def.ActorFrame {}
 
 local EvalscreenSidebar = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).EvalscreenSidebar
+
+local netplay = Var("netplay")
+
 if EvalscreenSidebar then
-	t[#t + 1] = LoadActor("sidebar/default")
+	t[#t + 1] = LoadActorWithParams("sidebar/default", { netplay = netplay })
 	return t
 end
 
@@ -13,10 +16,10 @@ local customWindows = timingWindowConfig:get_data().customWindows
 local scoreType = themeConfig:get_data().global.DefaultScoreType
 
 if GAMESTATE:GetNumPlayersEnabled() == 1 and themeConfig:get_data().eval.ScoreBoardEnabled then
-  if not NSMAN:IsETTP() then
-    t[#t + 1] = LoadActor("../scoreboard")
+  if netplay ~= nil then
+    t[#t + 1] = LoadActor("../../MPscoreboard")
   else
-    t[#t + 1] = LoadActor("../MPscoreboard")
+    t[#t + 1] = LoadActor("../scoreboard")
   end
 end
 

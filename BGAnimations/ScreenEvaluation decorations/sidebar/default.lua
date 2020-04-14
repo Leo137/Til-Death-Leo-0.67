@@ -6,11 +6,13 @@ local customWindows = timingWindowConfig:get_data().customWindows
 
 local scoreType = themeConfig:get_data().global.DefaultScoreType
 
+local netplay = Var("netplay")
+
 if GAMESTATE:GetNumPlayersEnabled() == 1 and themeConfig:get_data().eval.ScoreBoardEnabled then
-  if not NSMAN:IsETTP() then
-    t[#t + 1] = LoadActor("../scoreboard")
-  else
+  if netplay ~= nil then
     t[#t + 1] = LoadActor("../../MPscoreboard")
+  else
+    t[#t + 1] = LoadActor("../scoreboard")
   end
 end
 
@@ -457,15 +459,15 @@ function scoreBoard(pn, position)
         if params.Name == "PrevJudge" or params.Name == "NextJudge" then
           if enabledCustomWindows then
             self:finishtweening():decelerate(2):zoomx(
-              frameWidth * getRescoredCustomJudge(dvt, customWindow.judgeWindows, k) / totalTaps
+              204 * getRescoredCustomJudge(dvt, customWindow.judgeWindows, k) / totalTaps
             )
           else
             local rescoreJudges = getRescoredJudge(dvt, judge, k)
-            self:finishtweening():decelerate(2):zoomx(frameWidth * rescoreJudges / totalTaps)
+            self:finishtweening():decelerate(2):zoomx(204 * rescoreJudges / totalTaps)
           end
         end
         if params.Name == "ResetJudge" then
-          self:finishtweening():decelerate(2):zoomx(frameWidth * pss:GetPercentageOfTaps(v))
+          self:finishtweening():decelerate(2):zoomx(204 * pss:GetPercentageOfTaps(v))
         end
       end
     }
@@ -703,6 +705,18 @@ function scoreBoard(pn, position)
     end
   end
 
+  local function cbs(dvt, x)
+    local cbs = 0
+    for i = 1, #dvt do
+      if math.abs(dvt[i]) > tso * 90 then
+        if tracks[i + x] == 0 or tracks[i + x] == 1 then
+          cbs = cbs + 1
+        end
+      end
+    end
+    return cbs
+  end
+
   local smallest, largest = wifeRange(devianceTable)
   local doot = {
     THEME:GetString("ScreenEvaluation", "Mean"),
@@ -712,14 +726,26 @@ function scoreBoard(pn, position)
     THEME:GetString("ScreenEvaluation", "RightCB"),
     THEME:GetString("ScreenEvaluation", "MiddleCB")
   }
-  local mcscoot = {
-    wifeMean(devianceTable),
-    wifeAbsMean(devianceTable),
-    wifeSd(devianceTable),
-    cbl,
-    cbr,
-    cbm
-  }
+  local mcscoot = { 
+      function() 
+        return wifeMean(devianceTable) 
+      end, 
+      function() 
+        return wifeAbsMean(devianceTable) 
+      end, 
+      function() 
+        return wifeSd(devianceTable) 
+      end, 
+      function() 
+        return cbs(devianceTable, 0)
+      end, 
+      function() 
+        return cbs(devianceTable, 2)
+      end,
+      function() 
+        return cbs(devianceTable, 1)
+      end
+    } 
 
   -- if theres a middle lane, display its cbs too
   local lines = ((ncol+1) % 2 == 0) and #doot-1  or #doot
@@ -740,35 +766,13 @@ function scoreBoard(pn, position)
         Name=i,
         InitCommand = function(self)
           if i < 4 then
-            self:xy(frameWidth - 100 + 4, frameY + 225 + 10 * i):zoom(0.4):halign(1):settextf("%5.2fms", mcscoot[i])
+            self:xy(frameWidth - 100 + 4, frameY + 225 + 10 * i):zoom(0.4):halign(1):settextf("%5.2fms", mcscoot[i]())
           else
-            self:xy(frameWidth - 100 + 4, frameY + 225 + 10 * i):zoom(0.4):halign(1):settext(mcscoot[i])
+            self:xy(frameWidth - 100 + 4, frameY + 225 + 10 * i):zoom(0.4):halign(1):settext(mcscoot[i]())
           end
         end,
-        CodeMessageCommand = function(self, params)
-          local j = tonumber(self:GetName())
-          if j > 3 and (params.Name == "PrevJudge" or params.Name == "NextJudge") then
-            if j == 4 then
-              local tso = tst[judge]
-              if enabledCustomWindows then
-                tso = 1
-              end
-              mcscoot[j] = 0
-              mcscoot[j+1] = 0
-              for i = 1, #devianceTable do
-                if tracks[i] then -- it would probably make sense to move all this to c++
-                  if math.abs(devianceTable[i]) > tso * 90 then
-                    if tracks[i] <= math.floor(ncol/2) then
-                      mcscoot[j] = mcscoot[j] + 1
-                    else
-                      mcscoot[j+1] = mcscoot[j+1] + 1
-                    end
-                  end
-                end
-              end
-            end
-            self:xy(frameWidth + 20, frameY + 230 + 10 * j):zoom(0.4):halign(1):settext(mcscoot[j])
-          end
+        ScoreChangedMessageCommand = function(self)
+          self:queuecommand("Init")
         end
       }
   end

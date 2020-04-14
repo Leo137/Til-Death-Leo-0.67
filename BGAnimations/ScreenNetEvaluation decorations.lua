@@ -1,3 +1,3 @@
 local t = Def.ActorFrame {}
-t[#t + 1] = LoadActor("ScreenEvaluation decorations/default")
+t[#t + 1] = LoadActorWithParams("ScreenEvaluation decorations/default", { netplay = true })
 return t

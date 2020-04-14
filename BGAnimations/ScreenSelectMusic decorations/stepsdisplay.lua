@@ -1,6 +1,7 @@
 local itsOn = false
 local stepsdisplayx = SCREEN_WIDTH * 0.56 - capWideScale(48, 56)
 
+local t = Def.ActorFrame {}
 t[#t + 1] =
   Def.ActorFrame {
   Name = "StepsDisplay",
