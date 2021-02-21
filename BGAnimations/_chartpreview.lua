@@ -100,6 +100,8 @@ local t = Def.ActorFrame {
 		InitCommand = function(self)
 			self:xy(wodth/2, SCREEN_HEIGHT/2) 
 			self:diffuse(color("0.05,0.05,0.05,1"))
+			local cols = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
+			self:zoomto(48 * cols, SCREEN_HEIGHT)
 		end,
 		CurrentStyleChangedMessageCommand=function(self)
 			local cols = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()

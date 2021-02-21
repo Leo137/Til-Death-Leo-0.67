@@ -75,7 +75,11 @@ Branch = {
 		if PROFILEMAN:GetNumLocalProfiles() >= 2 then
 			return "ScreenSelectProfile"
 		else
-			return "ScreenProfileLoad"
+			if THEME:GetMetric("Common", "AutoSetStyle") == false then
+				return "ScreenSelectStyle"
+			else
+				return "ScreenProfileLoad"
+			end
 		end
 	end,
 	OptionsEdit = function()
@@ -88,12 +92,15 @@ Branch = {
 	AfterSelectStyle = function()
 		if IsNetConnected() then
 			ReportStyle()
-			GAMESTATE:ApplyGameCommand("playmode,regular")
 		end
 		return "ScreenProfileLoad"
 	end,
 	AfterSelectProfile = function()
-		return "ScreenSelectMusic"
+		if (THEME:GetMetric("Common", "AutoSetStyle") == true) then
+			return "ScreenSelectMusic"
+		else
+			return "ScreenSelectStyle"
+		end
 	end,
 	AfterNetSelectProfile = function()
 		return SMOnlineScreen()
