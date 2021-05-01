@@ -92,6 +92,7 @@ Branch = {
 	AfterSelectStyle = function()
 		if IsNetConnected() then
 			ReportStyle()
+			return SMOnlineScreen()
 		end
 		return "ScreenProfileLoad"
 	end,
@@ -103,7 +104,11 @@ Branch = {
 		end
 	end,
 	AfterNetSelectProfile = function()
-		return SMOnlineScreen()
+		if THEME:GetMetric("Common", "AutoSetStyle") == false then
+			return "ScreenSelectStyle"
+		else
+			return SMOnlineScreen()
+		end
 	end,
 	AfterProfileLoad = function()
 		return "ScreenSelectMusic"
