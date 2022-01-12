@@ -96,6 +96,7 @@ local defaultConfig = {
 	CustomEvaluationWindowTimings = false,
 	PracticeMode = false,
 	sm5SongProgressStyle = false,
+	cinematic = false,
 	EvalscreenSidebar = false,
 	GameplayXYCoordinates = {
 		["3K"] = DeepCopy(defaultGameplayCoordinates),

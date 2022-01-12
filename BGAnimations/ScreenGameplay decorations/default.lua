@@ -1,10 +1,11 @@
 local t = Def.ActorFrame{}
 local sm5SongProgressEnabled = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).sm5SongProgressStyle
+local cinematicMode = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).cinematic
 if not sm5SongProgressEnabled then
   return t
 end
 
-local maxSegments = 150
+local maxSegments = 10
 
 local function CreateSegments(Player)
   local t = Def.ActorFrame { };
@@ -156,55 +157,57 @@ end
 
 t[#t+1] = StandardDecorationFromFileOptional("ScoreFrame","ScoreFrame");
 
-for pn in ivalues(PlayerNumber) do
-  local MetricsName = "SongMeterDisplay" .. PlayerNumberToString(pn);
-  local songMeterDisplay = Def.ActorFrame{
-    InitCommand=function(self) 
-      self:player(pn); 
-      self:name(MetricsName); 
-      ActorUtil.LoadAllCommandsAndSetXY(self,Var "LoadingScreen"); 
-    end;
-    LoadActor( THEME:GetPathG( 'SongMeterDisplay', 'frame ' .. PlayerNumberToString(pn) ) ) .. {
-      InitCommand=function(self)
-        self:name('Frame'); 
-        ActorUtil.LoadAllCommandsAndSetXY(self,MetricsName); 
+if not cinematicMode then
+  for pn in ivalues(PlayerNumber) do
+    local MetricsName = "SongMeterDisplay" .. PlayerNumberToString(pn);
+    local songMeterDisplay = Def.ActorFrame{
+      InitCommand=function(self) 
+        self:player(pn); 
+        self:name(MetricsName); 
+        ActorUtil.LoadAllCommandsAndSetXY(self,Var "LoadingScreen"); 
       end;
-    };
-    Def.Quad {
-      InitCommand=function(self) self:zoomto(2,8) end;
-      OnCommand=function(self) self:x(scale(0.25,0,1,-380/2,380/2)):diffuse(PlayerColor(pn)):diffusealpha(0.5) end;
-    };
-    Def.Quad {
-      InitCommand=function(self) self:zoomto(2,8) end;
-      OnCommand=function(self) self:x(scale(0.5,0,1,-380/2,380/2)):diffuse(PlayerColor(pn)):diffusealpha(0.5) end;
-    };
-    Def.Quad {
-      InitCommand=function(self) self:zoomto(2,8) end;
-      OnCommand=function(self) self:x(scale(0.75,0,1,-380/2,380/2)):diffuse(PlayerColor(pn)):diffusealpha(0.5) end;
-    };
-    Def.SongMeterDisplay {
-      StreamWidth=THEME:GetMetric( MetricsName, 'StreamWidth' );
-      Stream=LoadActor( THEME:GetPathG( 'SongMeterDisplay', 'stream ' .. PlayerNumberToString(pn) ) )..{
-        InitCommand=function(self) self:diffuse(PlayerColor(pn)):diffusealpha(0.5):blend(Blend.Add) end;
+      LoadActor( THEME:GetPathG( 'SongMeterDisplay', 'frame ' .. PlayerNumberToString(pn) ) ) .. {
+        InitCommand=function(self)
+          self:name('Frame'); 
+          ActorUtil.LoadAllCommandsAndSetXY(self,MetricsName); 
+        end;
       };
-      Tip=LoadActor( THEME:GetPathG( 'SongMeterDisplay', 'tip ' .. PlayerNumberToString(pn) ) ) .. { InitCommand=function(self) self:visible(false) end; };
+      Def.Quad {
+        InitCommand=function(self) self:zoomto(2,8) end;
+        OnCommand=function(self) self:x(scale(0.25,0,1,-380/2,380/2)):diffuse(PlayerColor(pn)):diffusealpha(0.5) end;
+      };
+      Def.Quad {
+        InitCommand=function(self) self:zoomto(2,8) end;
+        OnCommand=function(self) self:x(scale(0.5,0,1,-380/2,380/2)):diffuse(PlayerColor(pn)):diffusealpha(0.5) end;
+      };
+      Def.Quad {
+        InitCommand=function(self) self:zoomto(2,8) end;
+        OnCommand=function(self) self:x(scale(0.75,0,1,-380/2,380/2)):diffuse(PlayerColor(pn)):diffusealpha(0.5) end;
+      };
+      Def.SongMeterDisplay {
+        StreamWidth=THEME:GetMetric( MetricsName, 'StreamWidth' );
+        Stream=LoadActor( THEME:GetPathG( 'SongMeterDisplay', 'stream ' .. PlayerNumberToString(pn) ) )..{
+          InitCommand=function(self) self:diffuse(PlayerColor(pn)):diffusealpha(0.5):blend(Blend.Add) end;
+        };
+        Tip=LoadActor( THEME:GetPathG( 'SongMeterDisplay', 'tip ' .. PlayerNumberToString(pn) ) ) .. { InitCommand=function(self) self:visible(false) end; };
+      };
     };
-  };
-  if true then
-    songMeterDisplay[#songMeterDisplay+1] = CreateSegments(pn);
-  end
-  t[#t+1] = songMeterDisplay
-end;
-for pn in ivalues(PlayerNumber) do
-  local MetricsName = "ToastyDisplay" .. PlayerNumberToString(pn);
-  -- t[#t+1] = LoadActor( THEME:GetPathG("Player", 'toasty'), pn ) .. {
-  --   InitCommand=function(self) 
-  --     self:player(pn); 
-  --     self:name(MetricsName); 
-  --     ActorUtil.LoadAllCommandsAndSetXY(self,Var "LoadingScreen"); 
-  --   end;
-  -- };
-end;
+    if true then
+      songMeterDisplay[#songMeterDisplay+1] = CreateSegments(pn);
+    end
+    t[#t+1] = songMeterDisplay
+  end;
+  for pn in ivalues(PlayerNumber) do
+    local MetricsName = "ToastyDisplay" .. PlayerNumberToString(pn);
+    -- t[#t+1] = LoadActor( THEME:GetPathG("Player", 'toasty'), pn ) .. {
+    --   InitCommand=function(self) 
+    --     self:player(pn); 
+    --     self:name(MetricsName); 
+    --     ActorUtil.LoadAllCommandsAndSetXY(self,Var "LoadingScreen"); 
+    --   end;
+    -- };
+  end;
+end
 
 
 

@@ -8,7 +8,10 @@ if not inReplay and not inCustomize and not isPractice then
 end
 
 local t = Def.ActorFrame {}
-t[#t + 1] = LoadActor("WifeJudgmentSpotting")
+local cinematicMode = playerConfig:get_data(pn_to_profile_slot(PLAYER_1)).cinematic
+if not cinematicMode then
+  t[#t + 1] = LoadActor("WifeJudgmentSpotting")
+end
 t[#t + 1] = LoadActor("titlesplash")
 t[#t + 1] = LoadActor("leaderboard")
 if inReplay then
